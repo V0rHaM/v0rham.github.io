@@ -1,5 +1,4 @@
 // js/main.js
-
 async function renderPlugins() {
     const grid = document.getElementById('pluginGrid');
     try {
@@ -32,8 +31,7 @@ async function renderPlugins() {
                         <a href="${p.spigotUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download</a>
                     </div>
                 </div>
-            </article>
-            `;
+            </article>`;
         }).join('');
     } catch (error) {
         console.error('Failed to load plugin data:', error);
