@@ -1,7 +1,8 @@
 /* css/plugin.css */
+
 .back-link {
     display: inline-block;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.95rem;
@@ -11,14 +12,14 @@
 
 .plugin-header {
     display: flex;
-    align-items: flex-start; /* Выравнивание по верхнему краю, чтобы текст не прыгал */
+    align-items: flex-start;
     gap: 20px;
     margin-bottom: 24px;
 }
 
 .plugin-icon {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     border-radius: 16px;
     background: var(--gradient);
     display: flex;
@@ -28,6 +29,7 @@
     font-weight: 800;
     color: #fff;
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .plugin-header > div {
@@ -39,42 +41,174 @@
 .plugin-header h1 {
     margin: 0;
     line-height: 1.2;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
 }
 
-.plugin-version { color: var(--text-muted); font-size: 0.9rem; }
-.plugin-actions { margin-bottom: 40px; }
-.plugin-description h2 { font-size: 1.5rem; margin-bottom: 16px; font-weight: 700; }
-.plugin-description h3 { font-size: 1.2rem; margin: 24px 0 12px; font-weight: 600; }
-.plugin-description p { color: var(--text-muted); margin-bottom: 16px; }
-.plugin-description ul { list-style: none; padding: 0; }
-
-.plugin-description li {
-    position: relative;
-    padding-left: 24px;
-    margin-bottom: 8px;
+.plugin-version {
     color: var(--text-muted);
-}
-.plugin-description li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: 4px;
 }
 
-/* Стили для описания, приходящего из API */
+.plugin-actions {
+    margin-bottom: 40px;
+}
+
+.plugin-description h2 {
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* ===== Описание от Spigot ===== */
 #plugin-description {
     color: var(--text-muted);
-    line-height: 1.7;
+    line-height: 1.75;
     word-wrap: break-word;
+    font-size: 0.95rem;
 }
+
 #plugin-description img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin: 10px 0;
+    border-radius: 10px;
+    margin: 12px 0;
+    border: 1px solid var(--card-border);
 }
+
 #plugin-description a {
-    color: var(--accent);
+    color: var(--accent-hover);
+    text-decoration: none;
+}
+#plugin-description a:hover {
     text-decoration: underline;
+}
+
+#plugin-description b,
+#plugin-description strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+#plugin-description i,
+#plugin-description em {
+    color: #b8c0d4;
+}
+
+/* Списки */
+#plugin-description ul,
+#plugin-description ol {
+    margin: 12px 0 16px 0;
+    padding-left: 22px;
+}
+#plugin-description li {
+    margin-bottom: 6px;
+}
+
+/* Заголовки внутри описания */
+#plugin-description div[style*="text-align: center"] {
+    margin: 28px 0 12px;
+    color: var(--text);
+    font-size: 1.05rem;
+}
+
+/* ===== Спойлеры (XenForo / Spigot) ===== */
+.bbCodeSpoilerContainer,
+.ToggleTriggerAnchor.bbCodeSpoilerContainer {
+    margin: 16px 0;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+}
+
+.bbCodeSpoilerButton,
+button.bbCodeSpoilerButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+    gap: 8px;
+}
+
+.bbCodeSpoilerButton:hover {
+    background: rgba(123, 92, 255, 0.12);
+}
+
+.bbCodeSpoilerButton::before {
+    content: "▸";
+    display: inline-block;
+    transition: transform 0.2s;
+    color: var(--accent);
+    font-size: 0.85rem;
+}
+
+.bbCodeSpoilerContainer.is-open .bbCodeSpoilerButton::before {
+    transform: rotate(90deg);
+}
+
+.SpoilerTitle {
+    color: var(--accent-hover);
+}
+
+/* Скрыто по умолчанию */
+.SpoilerTarget,
+.bbCodeSpoilerText {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid var(--card-border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.bbCodeSpoilerContainer.is-open > .SpoilerTarget,
+.bbCodeSpoilerContainer.is-open > .bbCodeSpoilerText {
+    display: block;
+}
+
+/* ===== Блоки кода ===== */
+.bbCodeBlock,
+.bbCodeCode {
+    margin: 12px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #0d1117;
+}
+
+.bbCodeBlock .type {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--card-border);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.bbCodeBlock .code,
+.bbCodeCode .code {
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #c9d1d9;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Убираем странные inline-цвета от Spigot, оставляем читаемость */
+.bbCodeBlock .code span {
+    color: inherit !important;
 }
