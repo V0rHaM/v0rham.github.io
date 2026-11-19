@@ -17,11 +17,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm' # Включаем кеширование зависимостей
+          # cache: 'npm'  <-- Мы это удалили
 
       - name: Install dependencies
-        run: npm ci # Используем ci для установки из package-lock.json, если он есть
-        # Если package-lock.json нет, используйте: npm install
+        run: npm install   # <-- Заменили ci на install
 
       - name: Fetch latest plugin data
         run: npm run fetch-plugins
