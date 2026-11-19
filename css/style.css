@@ -1,11 +1,11 @@
 :root {
     --bg: #0a0c12;
     --bg-elevated: #0e1118;
-    --card-bg: rgba(16, 20, 28, 0.9);
+    --card-bg: rgba(16, 20, 28, 0.85);
     --card-border: rgba(255, 255, 255, 0.06);
-    --card-hover-border: rgba(59, 130, 246, 0.4);
-    --accent: #3b82f6;
-    --accent-hover: #60a5fa;
+    --card-hover-border: rgba(255, 255, 255, 0.1);
+    --accent: #2563eb;
+    --accent-hover: #3b82f6;
     --accent-soft: rgba(59, 130, 246, 0.12);
     --text: #f1f5f9;
     --text-muted: #94a3b8;
@@ -17,7 +17,11 @@
     --nav-height: 60px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: var(--font-body);
@@ -38,7 +42,7 @@ body {
     top: 0;
     z-index: 100;
     height: var(--nav-height);
-    background: rgba(10, 12, 18, 0.85);
+    background: rgba(10, 12, 18, 0.9);
     border-bottom: 1px solid var(--card-border);
     backdrop-filter: blur(12px);
 }
@@ -65,7 +69,7 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,7 +87,7 @@ body {
 .topnav-links {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .topnav-links a {
@@ -99,13 +103,13 @@ body {
 .topnav-links a:hover,
 .topnav-links a.active {
     color: var(--text);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 /* ===== Hero ===== */
 .hero {
     position: relative;
-    padding: 72px 24px 56px;
+    padding: 72px 24px 48px;
     text-align: center;
     overflow: hidden;
 }
@@ -114,7 +118,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(59, 130, 246, 0.18), transparent 70%);
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(37, 99, 235, 0.16), transparent 70%);
     pointer-events: none;
 }
 
@@ -128,11 +132,11 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--accent-hover);
-    font-size: 0.8rem;
+    color: #60a5fa;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     margin-bottom: 18px;
 }
 
@@ -151,7 +155,7 @@ body {
     color: #fff;
     line-height: 1.4;
     margin-bottom: 18px;
-    text-shadow: 0 0 48px rgba(59, 130, 246, 0.35);
+    text-shadow: 0 0 48px rgba(59, 130, 246, 0.3);
 }
 
 .hero-subtitle {
@@ -164,7 +168,7 @@ body {
 
 /* ===== Section ===== */
 .section {
-    padding: 24px 24px 64px;
+    padding: 16px 24px 64px;
 }
 
 .section-inner {
@@ -198,15 +202,11 @@ body {
 }
 
 .section-desc {
-    color: #94a3b8;
+    color: var(--text-muted);
     font-size: 0.95rem;
     max-width: 360px;
     line-height: 1.55;
     text-align: right;
-}
-
-@media (max-width: 700px) {
-    .section-desc { text-align: left; max-width: none; }
 }
 
 /* ===== Grid — 2 columns like MythicCraft ===== */
@@ -216,17 +216,11 @@ body {
     gap: 16px;
 }
 
-@media (max-width: 800px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* ===== Cards ===== */
 .card {
-    background: rgba(16, 20, 28, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
     padding: 20px 22px 16px;
     display: flex;
     flex-direction: column;
@@ -234,7 +228,7 @@ body {
 }
 
 .card:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--card-hover-border);
     background: rgba(20, 25, 35, 0.95);
 }
 
@@ -294,7 +288,7 @@ body {
 }
 
 .card-desc {
-    color: #94a3b8;
+    color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.5;
     margin: 0;
@@ -302,7 +296,7 @@ body {
 
 .card-divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--card-border);
     margin: 16px 0 12px;
 }
 
@@ -318,8 +312,8 @@ body {
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    border-radius: 8px;
-    background: #2563eb;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
     color: #fff;
     font-size: 0.85rem;
     font-weight: 600;
@@ -329,11 +323,11 @@ body {
 }
 
 .btn-download:hover {
-    background: #3b82f6;
+    background: var(--accent-hover);
 }
 
 .card-link {
-    color: #94a3b8;
+    color: var(--text-muted);
     font-size: 0.85rem;
     font-weight: 500;
     text-decoration: none;
@@ -347,18 +341,18 @@ body {
 .card-version {
     margin-left: auto;
     font-size: 0.8rem;
-    color: #64748b;
+    color: var(--text-dim);
     font-weight: 500;
 }
 
-/* generic btn (for plugin page etc.) */
+/* ===== Buttons (plugin page etc.) ===== */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 10px 18px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 0.875rem;
@@ -369,18 +363,34 @@ body {
 }
 
 .btn-primary {
-    background: #2563eb;
+    background: var(--accent);
     color: #fff;
 }
-.btn-primary:hover { background: #3b82f6; }
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+}
 
 .btn-secondary {
     background: rgba(255, 255, 255, 0.06);
     color: #e2e8f0;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
 }
 
 /* ===== Footer ===== */
@@ -404,8 +414,9 @@ body {
     color: var(--text-muted);
     text-decoration: none;
 }
+
 .site-footer a:hover {
-    color: var(--accent-hover);
+    color: #60a5fa;
 }
 
 .empty-state {
@@ -426,12 +437,25 @@ body {
     min-height: calc(100vh - var(--nav-height) - 80px);
 }
 
-@media (max-width: 640px) {
+/* ===== Responsive ===== */
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .section-desc {
+        text-align: left;
+        max-width: none;
+    }
+
     .section-header {
         flex-direction: column;
         align-items: flex-start;
     }
+
     .hero {
-        padding: 48px 20px 40px;
+        padding: 48px 20px 36px;
     }
 }
