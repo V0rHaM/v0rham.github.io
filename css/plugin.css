@@ -1,12 +1,4 @@
 /* css/plugin.css */
-.plugin-page .plugin-header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-    background: none;
-    -webkit-text-fill-color: #fff;
-    color: #fff;
-}
-
 .back-link {
     display: inline-flex;
     align-items: center;
@@ -51,13 +43,13 @@
 }
 
 .plugin-header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(0.95rem, 2.8vw, 1.35rem);
+    font-family: var(--font-body);
+    font-size: clamp(1.4rem, 3vw, 1.85rem);
     font-weight: 700;
     color: #fff;
     margin: 0;
-    line-height: 1.35;
-    letter-spacing: 0.01em;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
     background: none;
     -webkit-text-fill-color: #fff;
     text-shadow: none;
@@ -80,12 +72,11 @@
 }
 
 .plugin-description h2 {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    margin-bottom: 20px;
+    font-family: var(--font-body);
+    font-size: 1.25rem;
     font-weight: 700;
+    margin-bottom: 18px;
     color: var(--text);
-    letter-spacing: 0.02em;
 }
 
 /* ===== Description content ===== */
