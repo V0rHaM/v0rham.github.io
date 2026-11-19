@@ -26,21 +26,17 @@ function createPluginCard(plugin) {
     const version = escapeHtml(plugin.version || '—');
     const id = Number(plugin.id);
     const detailsUrl = Number.isInteger(id) && id > 0 ? `plugin.html?id=${id}` : 'plugin.html';
-    const downloadUrl = safeHttpsUrl(plugin.spigotUrl);
     const iconUrl = safeHttpsUrl(plugin.iconUrl);
     const icon = iconUrl
         ? `<img src="${escapeHtml(iconUrl)}" alt="" loading="lazy" decoding="async">`
         : `<span>${escapeHtml((plugin.name || 'V').trim().charAt(0).toUpperCase())}</span>`;
-    const downloadAction = downloadUrl
-        ? `<a class="card-link card-link-primary" href="${escapeHtml(downloadUrl)}" target="_blank" rel="noopener noreferrer">SpigotMC ↗</a>`
-        : '';
 
     return `
         <article class="plugin-card">
-            <div class="card-top">
+            <div class="card-topline"><span class="card-category">SPIGOT / PAPER</span><span class="card-index">${String(id).padStart(6, '0')}</span></div>
+            <div class="card-main-row">
                 <div class="card-icon">${icon}</div>
                 <div class="card-main">
-                    <p class="card-kicker">Minecraft plugin</p>
                     <h3 class="card-title">${name}</h3>
                     <p class="card-description">${tagline}</p>
                 </div>
@@ -50,10 +46,7 @@ function createPluginCard(plugin) {
                     <span class="card-version">v${version}</span>
                     <span>${formatNumber(plugin.downloads)} загрузок</span>
                 </div>
-                <div class="card-actions">
-                    <a class="card-link" href="${detailsUrl}">Подробнее →</a>
-                    ${downloadAction}
-                </div>
+                <a class="button button-card" href="${detailsUrl}">Подробнее <span aria-hidden="true">→</span></a>
             </div>
         </article>`;
 }
