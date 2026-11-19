@@ -1,4 +1,11 @@
 /* css/plugin.css */
+.plugin-page .plugin-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    background: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+}
 
 .back-link {
     display: inline-flex;
