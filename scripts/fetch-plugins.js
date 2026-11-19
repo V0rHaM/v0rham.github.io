@@ -18,21 +18,22 @@ async function fetchPluginsData() {
       let version = '1.0';
       try {
         const latestVersion = await spiget.getResourceLatestVersion(id);
-        version = latestVersion.name || latestVersion.id;
+        version = latestVersion.name || latestVersion.id || '1.0';
       } catch (e) {
-        console.log(`Could not fetch version for ${id}`);
+        console.log(`Could not fetch version for ${id}, using fallback.`);
       }
 
       pluginsData.push({
         id: resource.id,
         name: resource.name,
         tagline: resource.tag,
+        // Используем поле description для полного описания
+        description: resource.description || 'Описание отсутствует.',
         version: version,
         author: resource.author?.name || 'V0rHaM',
         downloads: resource.downloads || 0,
         spigotUrl: `https://www.spigotmc.org/resources/${id}/`,
-        // Если иконки нет, оставляем null
-        iconUrl: resource.icon?.url || null, 
+        iconUrl: resource.icon?.url || null,
       });
     } catch (error) {
       console.error(`Failed to fetch resource ${id}:`, error.message);
