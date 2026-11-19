@@ -3,9 +3,8 @@ name: Update Plugin Data
 
 on:
   schedule:
-    # Запускать каждый час (в начале часа)
-    - cron: '0 * * * *'
-  workflow_dispatch: # Позволяет запускать вручную из вкладки Actions
+    - cron: '0 * * * *' # Каждый час
+  workflow_dispatch:
 
 jobs:
   update-data:
@@ -18,18 +17,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm' # Включаем кеширование зависимостей
 
       - name: Install dependencies
-        run: npm install spigot-sdk
+        run: npm ci # Используем ci для установки из package-lock.json, если он есть
+        # Если package-lock.json нет, используйте: npm install
 
       - name: Fetch latest plugin data
-        run: node scripts/fetch-plugins.js
+        run: npm run fetch-plugins
 
       - name: Commit and push if data changed
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add data/plugins.json
-          # Проверяем, есть ли изменения, и коммитим только если они есть
           git diff --staged --quiet || git commit -m "chore: update plugin data"
           git push
