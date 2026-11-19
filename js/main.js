@@ -1,29 +1,37 @@
+// js/main.js
+
 async function renderPlugins() {
     const grid = document.getElementById('pluginGrid');
     try {
-        // Загружаем данные из нашего JSON-файла, а не из внешнего API
         const response = await fetch('data/plugins.json');
-        if (!response.ok) throw new Error('Network response was not ok');
         const plugins = await response.json();
 
-        grid.innerHTML = plugins.map(p => `
+        grid.innerHTML = plugins.map(p => {
+            // Если есть иконка - картинка, иначе - первая буква названия
+            const iconHtml = p.iconUrl 
+                ? `<img src="${p.iconUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />`
+                : `${p.name.charAt(0)}`;
+
+            return `
             <article class="card">
-                <img src="${p.iconUrl}" alt="${p.name}" class="card-icon-img" />
+                <div class="card-icon">${iconHtml}</div>
                 <h2>${p.name}</h2>
                 <p class="desc">${p.tagline}</p>
                 <div class="card-meta">
-                    <span>v${p.version}</span>
-                    <span>${p.downloads} загрузок</span>
+                    <span class="tag">v${p.version}</span>
+                    <span>${p.downloads} downloads</span>
                 </div>
                 <div class="card-buttons">
-                    <a href="${p.id}.html" class="btn btn-secondary">Подробнее</a>
-                    <a href="${p.spigotUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Скачать</a>
+                    <!-- Кнопка теперь ведет на универсальную страницу с ID -->
+                    <a href="plugin.html?id=${p.id}" class="btn btn-secondary">Details</a>
+                    <a href="${p.spigotUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download</a>
                 </div>
             </article>
-        `).join('');
+            `;
+        }).join('');
     } catch (error) {
         console.error('Failed to load plugin data:', error);
-        grid.innerHTML = '<p class="empty-state">Не удалось загрузить данные о плагинах. Попробуйте позже.</p>';
+        grid.innerHTML = '<p class="empty-state">Failed to load plugin data.</p>';
     }
 }
 
