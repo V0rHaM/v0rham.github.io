@@ -1,0 +1,11 @@
+{
+  "name": "v0rham-plugins-page",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "fetch-plugins": "node scripts/fetch-plugins.js"
+  },
+  "dependencies": {
+    "spiget": "^0.1.1"
+  }
+}
