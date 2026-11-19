@@ -4,6 +4,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
 const AUTHOR_ID = 147903;
+const USER_AGENT = 'V0rHaM-Plugins-Page/1.0';
 
 function decodeDescription(base64) {
   if (!base64) return 'No description provided.';
@@ -14,8 +15,21 @@ function decodeDescription(base64) {
   }
 }
 
+async function fetchResourceDescription(id) {
+  try {
+    const res = await fetch(`https://api.spiget.org/v2/resources/${id}`, {
+      headers: { 'User-Agent': USER_AGENT }
+    });
+    if (!res.ok) return 'No description provided.';
+    const data = await res.json();
+    return decodeDescription(data.description);
+  } catch {
+    return 'No description provided.';
+  }
+}
+
 async function fetchPluginsData() {
-  const spiget = new Spiget('V0rHaM-Plugins-Page/1.0');
+  const spiget = new Spiget(USER_AGENT);
   const pluginsData = [];
 
   try {
@@ -25,13 +39,8 @@ async function fetchPluginsData() {
 
     for (const resource of resources) {
       try {
-        // Получаем полные данные ресурса (там есть description в base64)
-        const fullResource = await spiget.getResource(resource.id);
-
-        let description = 'No description provided.';
-        if (fullResource.description) {
-          description = decodeDescription(fullResource.description);
-        }
+        // Описание берём напрямую через API (библиотека его не отдаёт)
+        const description = await fetchResourceDescription(resource.id);
 
         // Версия
         let version = '1.0';
