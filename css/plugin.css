@@ -58,3 +58,39 @@
     .plugin-actions .button { flex: 1; }
     .description-section { padding-top: 42px; }
 }
+
+/* Compact plugin page */
+.plugin-main { padding-top: 25px; padding-bottom: 64px; }
+.breadcrumbs { margin-bottom: 22px; font-size: 10px; }
+.plugin-overview { padding: 21px 0 22px; }
+.plugin-identity { gap: 16px; }
+.plugin-icon { width: 56px; height: 56px; flex-basis: 56px; border-radius: 8px; font-size: 20px; }
+.plugin-heading h1 { font-size: clamp(23px, 3vw, 31px); }
+.plugin-tagline { margin-top: 5px; font-size: 12px; }
+.plugin-facts { margin-top: 19px; }
+.plugin-fact { min-width: 125px; padding: 10px 16px 10px 0; margin-right: 16px; }
+.fact-value { font-size: 11px; }
+.plugin-actions { gap: 8px; margin-top: 16px; }
+.button-subtle { border-color: transparent; color: var(--muted); background: transparent; }
+.button-subtle:hover { color: var(--text); background: rgba(255,255,255,.04); }
+.description-section { padding-top: 32px; }
+.description-heading { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+.description-heading .section-index { margin: 0; }
+.description-heading h2 { font-size: 20px; }
+.description-panel { padding: 22px 24px; border-radius: 8px; }
+.description-content { font-size: 12px; line-height: 1.75; }
+.description-content h1, .description-content h2, .description-content h3, .description-content h4 { margin: 19px 0 8px; font-size: 15px; }
+.description-content ul, .description-content ol { margin: 9px 0 13px; padding-left: 19px; }
+.description-content li { margin: 3px 0; }
+.bbCodeSpoilerButton, button.bbCodeSpoilerButton { padding: 10px 12px; font-size: 11px; }
+.SpoilerTarget, .bbCodeSpoilerText { padding: 12px; }
+@media (max-width: 600px) {
+  .plugin-main { padding-top: 20px; padding-bottom: 48px; }
+  .plugin-overview { padding-block: 17px; }
+  .plugin-fact { min-width: 33.33%; padding-right: 7px; }
+  .plugin-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .plugin-actions .button { width: 100%; }
+  .plugin-actions .button-subtle { grid-column: 1 / -1; }
+  .description-section { padding-top: 27px; }
+  .description-panel { padding: 17px; }
+}
