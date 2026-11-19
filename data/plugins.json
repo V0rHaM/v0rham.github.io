@@ -3,11 +3,9 @@
     "id": 105885,
     "name": "AuthVH",
     "tagline": "Simple login plugin",
-    "version": "N/A",
-    "description": "Simple login plugin",
+    "version": "1.0",
     "author": "V0rHaM",
     "downloads": 55939,
-    "lastUpdate": 1794776480,
     "spigotUrl": "https://www.spigotmc.org/resources/105885/",
     "iconUrl": "data/resource_icons/105/105885.jpg?1666519237"
   },
@@ -15,24 +13,20 @@
     "id": 112792,
     "name": "HiddenNamesVH",
     "tagline": "The plugin simply hides the nicknames above your head",
-    "version": "N/A",
-    "description": "The plugin simply hides the nicknames above your head",
+    "version": "1.0",
     "author": "V0rHaM",
     "downloads": 57,
-    "lastUpdate": 1695556202,
     "spigotUrl": "https://www.spigotmc.org/resources/112792/",
-    "iconUrl": ""
+    "iconUrl": null
   },
   {
     "id": 112089,
     "name": "SpyCommand",
     "tagline": "Allows you to monitor the teams used by players right in the game",
-    "version": "N/A",
-    "description": "Allows you to monitor the teams used by players right in the game",
+    "version": "1.0",
     "author": "V0rHaM",
     "downloads": 5938,
-    "lastUpdate": 1692299086,
     "spigotUrl": "https://www.spigotmc.org/resources/112089/",
-    "iconUrl": ""
+    "iconUrl": null
   }
 ]
