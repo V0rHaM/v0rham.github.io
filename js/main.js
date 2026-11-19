@@ -7,24 +7,30 @@ async function renderPlugins() {
         const plugins = await response.json();
 
         grid.innerHTML = plugins.map(p => {
-            // Если есть иконка - картинка, иначе - первая буква названия
-            const iconHtml = p.iconUrl 
-                ? `<img src="${p.iconUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />`
-                : `${p.name.charAt(0)}`;
+            const iconHtml = p.iconUrl
+                ? `<img src="${p.iconUrl}" alt="${p.name}" />`
+                : `<span class="card-icon-letter">${p.name.charAt(0)}</span>`;
 
             return `
             <article class="card">
-                <div class="card-icon">${iconHtml}</div>
-                <h2>${p.name}</h2>
-                <p class="desc">${p.tagline}</p>
-                <div class="card-meta">
-                    <span class="tag">v${p.version}</span>
-                    <span>${p.downloads} downloads</span>
+                <div class="card-top">
+                    <div class="card-icon">${iconHtml}</div>
+                    <div class="card-head">
+                        <span class="card-tag">Plugin</span>
+                        <h2>${p.name}</h2>
+                    </div>
                 </div>
-                <div class="card-buttons">
-                    <!-- Кнопка теперь ведет на универсальную страницу с ID -->
-                    <a href="plugin.html?id=${p.id}" class="btn btn-secondary">Details</a>
-                    <a href="${p.spigotUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download</a>
+                <p class="desc">${p.tagline || ''}</p>
+                <div class="card-divider"></div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <span class="tag">v${p.version}</span>
+                        <span class="downloads">${Number(p.downloads).toLocaleString()} downloads</span>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="plugin.html?id=${p.id}" class="btn btn-secondary">Details</a>
+                        <a href="${p.spigotUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download</a>
+                    </div>
                 </div>
             </article>
             `;
