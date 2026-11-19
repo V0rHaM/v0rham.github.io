@@ -9,11 +9,23 @@
 
 .back-link:hover { color: var(--accent); }
 
+/* css/plugin.css */
 .plugin-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
     gap: 20px;
     margin-bottom: 24px;
+}
+
+.plugin-header > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.plugin-header h1 {
+    margin: 0;
+    line-height: 1.2;
 }
 
 .plugin-icon {
@@ -27,6 +39,7 @@
     font-size: 2rem;
     font-weight: 800;
     color: #fff;
+    flex-shrink: 0; /* Запрещаем иконке сжиматься */
 }
 
 .plugin-version { color: var(--text-muted); font-size: 0.9rem; }
