@@ -5,6 +5,15 @@ import { join } from 'path';
 
 const AUTHOR_ID = 147903;
 
+function decodeDescription(base64) {
+  if (!base64) return 'No description provided.';
+  try {
+    return Buffer.from(base64, 'base64').toString('utf-8');
+  } catch {
+    return 'No description provided.';
+  }
+}
+
 async function fetchPluginsData() {
   const spiget = new Spiget('V0rHaM-Plugins-Page/1.0');
   const pluginsData = [];
@@ -16,27 +25,19 @@ async function fetchPluginsData() {
 
     for (const resource of resources) {
       try {
-        // 1. Получаем полное описание
+        // Получаем полные данные ресурса (там есть description в base64)
+        const fullResource = await spiget.getResource(resource.id);
+
         let description = 'No description provided.';
-        try {
-          description = await spiget.getResourceDescription(resource.id);
-        } catch (e) {
-          console.log(`Could not fetch description for ${resource.id}`);
+        if (fullResource.description) {
+          description = decodeDescription(fullResource.description);
         }
 
-        // 2. Получаем актуальную версию
+        // Версия
         let version = '1.0';
         try {
           const latestVersion = await spiget.getResourceLatestVersion(resource.id);
           version = latestVersion.name || latestVersion.id || '1.0';
-          
-          // Если версия всё равно 1.0, пробуем получить список версий и берем первую
-          if (version === '1.0') {
-             const versions = await spiget.getResourceVersions(resource.id);
-             if (versions && versions.length > 0) {
-                 version = versions[0].name || '1.0';
-             }
-          }
         } catch (e) {
           console.log(`Could not fetch version for ${resource.id}`);
         }
@@ -44,15 +45,20 @@ async function fetchPluginsData() {
         pluginsData.push({
           id: resource.id,
           name: resource.name,
-          tagline: resource.tag,
+          tagline: resource.tag || '',
           description: description,
           version: version,
           author: resource.author?.name || 'V0rHaM',
           downloads: resource.downloads || 0,
           spigotUrl: `https://www.spigotmc.org/resources/${resource.id}/`,
-          // Если ссылка на иконку относительная, добавляем домен SpigotMC
-          iconUrl: resource.icon?.url ? (resource.icon.url.startsWith('http') ? resource.icon.url : `https://www.spigotmc.org/${resource.icon.url}`) : null,
+          iconUrl: resource.icon?.url
+            ? (resource.icon.url.startsWith('http')
+                ? resource.icon.url
+                : `https://www.spigotmc.org/${resource.icon.url}`)
+            : null,
         });
+
+        console.log(`✓ ${resource.name}`);
       } catch (err) {
         console.error(`Failed to process resource ${resource.id}:`, err.message);
       }
@@ -62,8 +68,7 @@ async function fetchPluginsData() {
     const outputPath = join(outputDir, 'plugins.json');
     await mkdir(outputDir, { recursive: true });
     await writeFile(outputPath, JSON.stringify(pluginsData, null, 2));
-    console.log(`Data successfully saved to ${outputPath}`);
-
+    console.log(`\nData successfully saved to ${outputPath}`);
   } catch (error) {
     console.error('Failed to fetch author data:', error.message);
   }
