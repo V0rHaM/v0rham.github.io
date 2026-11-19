@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('plugin-name').textContent = plugin.name;
             document.getElementById('plugin-version').textContent = `Version ${plugin.version}`;
             document.getElementById('plugin-downloads').textContent = `${plugin.downloads} total downloads`;
-            
-            // Обработка иконки
+
+            // Иконка
             const iconContainer = document.getElementById('plugin-icon');
             if (plugin.iconUrl) {
                 iconContainer.innerHTML = `<img src="${plugin.iconUrl}" alt="${plugin.name}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;" />`;
@@ -27,12 +27,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 iconContainer.textContent = plugin.name.charAt(0);
             }
 
-            // Обработка полного описания
+            // Описание
             const descContainer = document.getElementById('plugin-description');
-            if (plugin.description && plugin.description.trim() !== '') {
-                // Базовая очистка от потенциально опасных скриптов
-                const cleanHtml = plugin.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+            if (plugin.description && plugin.description.trim() !== '' && plugin.description !== 'No description provided.') {
+                // Убираем скрипты
+                let cleanHtml = plugin.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
                 descContainer.innerHTML = cleanHtml;
+
+                // Делаем спойлеры рабочими
+                initSpoilers(descContainer);
             } else {
                 descContainer.textContent = 'No description provided.';
             }
@@ -47,3 +50,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('plugin-name').textContent = "Error";
     }
 });
+
+function initSpoilers(container) {
+    const spoilers = container.querySelectorAll('.bbCodeSpoilerContainer, .ToggleTriggerAnchor.bbCodeSpoilerContainer');
+
+    spoilers.forEach(spoiler => {
+        const button = spoiler.querySelector('.bbCodeSpoilerButton, button.ToggleTrigger');
+        if (!button) return;
+
+        // Убираем старые обработчики и делаем свой
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            spoiler.classList.toggle('is-open');
+        });
+    });
+}
