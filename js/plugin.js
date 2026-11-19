@@ -122,14 +122,16 @@ async function loadPlugin() {
         descriptionContainer.innerHTML = sanitizeDescription(description);
         initSpoilers(descriptionContainer);
 
-        const resourceUrl = safeHttpsUrl(plugin.spigotUrl);
+        // Build the canonical resource URL from its numeric SpigotMC ID.
+        const resourceUrl = `https://www.spigotmc.org/resources/${Number(plugin.id)}/`;
         const resourceId = Number(plugin.id);
         const downloadButton = document.getElementById('plugin-download-btn');
         const resourceButton = document.getElementById('plugin-resource-btn');
 
         if (Number.isInteger(resourceId) && resourceId > 0) {
             // Spiget redirects to the currently available resource file on SpigotMC's CDN.
-            downloadButton.href = `https://api.spiget.org/v2/resources/${resourceId}/download`;
+            downloadButton.href = `https://api.spiget.org/v2/resources/${resourceId}/versions/latest/download/proxy`;
+            downloadButton.setAttribute('download', '');
         } else {
             downloadButton.removeAttribute('href');
             downloadButton.setAttribute('aria-disabled', 'true');
