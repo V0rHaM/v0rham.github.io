@@ -3,61 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#11130f">
+    <meta name="description" content="Официальный каталог плагинов V0rHaM для Minecraft-серверов на Spigot и Paper.">
     <title>Плагины V0rHaM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Top nav -->
-    <nav class="topnav">
-        <div class="topnav-inner">
-            <a href="index.html" class="brand">
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="Основная навигация">
+            <a class="brand" href="index.html" aria-label="V0rHaM — главная">
                 <span class="brand-mark">V</span>
-                <span class="brand-name">V0rHaM</span>
+                <span class="brand-name">V0rHaM<span class="brand-period">.</span></span>
             </a>
-            <div class="topnav-links">
-                <a href="index.html" class="active">Plugins</a>
-                <a href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener">SpigotMC</a>
+            <div class="nav-links">
+                <a class="nav-link nav-link-active" href="index.html">Плагины</a>
+                <a class="nav-link" href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener noreferrer">
+                    SpigotMC <span class="external-mark" aria-hidden="true">↗</span>
+                </a>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-inner">
-            <p class="hero-eyebrow">Official plugins</p>
-            <h1 class="hero-title">Плагины V0rHaM</h1>
-            <p class="hero-subtitle">
-                Официальные плагины автора на SpigotMC.<br>
-                Прямые ссылки на скачивание последних версий.
-            </p>
-        </div>
-    </section>
-
-    <!-- Plugins section -->
-    <section class="section">
-        <div class="section-inner">
-            <div class="section-header">
-                <div>
-                    <p class="section-label">Plugin suite</p>
-                    <h2 class="section-title">Official plugins</h2>
-                </div>
-                <p class="section-desc">
-                    Простые и полезные плагины для серверов Minecraft.
-                    Скачивайте и используйте свободно.
+    <main>
+        <section class="hero-shell page-shell">
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> Независимая разработка · Minecraft</p>
+                <h1>Инструменты<br>для <span>серверов Minecraft.</span></h1>
+                <p class="hero-description">
+                    Практичные плагины для Spigot и Paper — от авторизации игроков до настройки игрового процесса.
+                    Всё, что опубликовано, собрано в одном каталоге.
                 </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#plugins">Смотреть плагины <span aria-hidden="true">↓</span></a>
+                    <a class="button button-quiet" href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener noreferrer">Профиль автора <span aria-hidden="true">↗</span></a>
+                </div>
             </div>
 
-            <main class="grid" id="pluginGrid"></main>
-        </div>
-    </section>
+            <aside class="hero-aside" aria-label="Статистика каталога">
+                <div class="aside-heading">
+                    <span class="mono-label">V0rHaM / PLUGIN CATALOG</span>
+                    <span class="live-indicator"><span></span> Каталог открыт</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-block">
+                        <span class="stat-value" id="pluginCount">—</span>
+                        <span class="stat-label">Опубликовано ресурсов</span>
+                    </div>
+                    <div class="stat-block">
+                        <span class="stat-value" id="downloadCount">—</span>
+                        <span class="stat-label">Всего загрузок</span>
+                    </div>
+                </div>
+                <div class="aside-footer">
+                    <span>Публикация и загрузка</span>
+                    <span class="aside-platform">SPIGOTMC <span aria-hidden="true">↗</span></span>
+                </div>
+            </aside>
+        </section>
+
+        <section class="catalog-section page-shell" id="plugins">
+            <div class="section-heading">
+                <div>
+                    <p class="section-index">01 <span>/</span> КАТАЛОГ</p>
+                    <h2>Плагины</h2>
+                </div>
+                <p class="section-description">Подборка опубликованных разработок. Выберите плагин, чтобы посмотреть описание, возможности и требования.</p>
+            </div>
+
+            <div class="catalog-meta">
+                <span>Все ресурсы</span>
+                <span class="catalog-meta-line"></span>
+                <span id="catalogCount" class="mono-label">ЗАГРУЗКА...</span>
+            </div>
+
+            <div class="plugin-grid" id="pluginGrid" aria-live="polite">
+                <div class="loading-state"><span class="loading-indicator"></span> Загрузка каталога</div>
+            </div>
+        </section>
+    </main>
 
     <footer class="site-footer">
-        <div class="section-inner">
-            <span>© V0rHaM · Plugins for Spigot / Paper</span>
-            <a href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener">Author on SpigotMC</a>
+        <div class="footer-shell page-shell">
+            <a class="footer-brand" href="index.html">V0rHaM<span>.</span></a>
+            <p>Независимая разработка плагинов для Minecraft.</p>
+            <a class="footer-link" href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener noreferrer">SpigotMC <span aria-hidden="true">↗</span></a>
+            <span class="footer-copy">© <span id="currentYear"></span> V0rHaM</span>
         </div>
     </footer>
 
