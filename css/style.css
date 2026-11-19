@@ -1,14 +1,15 @@
 :root {
-    --bg: #0b0e14;
-    --card-bg: rgba(20, 25, 35, 0.85);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --accent: #7b5cff;
-    --accent-hover: #9d85ff;
-    --text: #e6e9f0;
-    --text-muted: #8a93a6;
-    --gradient: linear-gradient(135deg, #7b5cff 0%, #00c6ff 100%);
-    --radius: 16px;
+    --bg: #070a10;
+    --card-bg: rgba(16, 20, 30, 0.9);
+    --card-border: rgba(255, 255, 255, 0.07);
+    --accent: #5b8def;
+    --accent-hover: #7aa7ff;
+    --text: #e8ecf4;
+    --text-muted: #8b95a8;
+    --gradient: linear-gradient(135deg, #5b8def 0%, #3d6fd4 100%);
+    --radius: 14px;
 }
+
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
