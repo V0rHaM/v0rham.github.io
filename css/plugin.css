@@ -94,3 +94,40 @@
   .description-section { padding-top: 27px; }
   .description-panel { padding: 17px; }
 }
+
+
+/* Dense resource-page rhythm. */
+.plugin-main { padding-top: 18px; padding-bottom: 42px; }
+.breadcrumbs { margin-bottom: 14px; gap: 7px; }
+.plugin-overview { padding: 15px 0 16px; }
+.plugin-identity { gap: 12px; }
+.plugin-icon { width: 48px; height: 48px; flex-basis: 48px; }
+.plugin-heading .section-index { margin-bottom: 3px; }
+.plugin-heading h1 { font-size: clamp(22px, 2.6vw, 28px); }
+.plugin-tagline { margin-top: 3px; line-height: 1.45; }
+.plugin-facts { margin-top: 12px; }
+.plugin-fact { min-width: 108px; padding: 7px 12px 7px 0; margin-right: 10px; gap: 2px; }
+.plugin-actions { gap: 7px; margin-top: 11px; }
+.description-section { padding-top: 22px; }
+.description-heading { gap: 10px; margin-bottom: 9px; }
+.description-heading h2 { font-size: 18px; }
+.description-panel { padding: 16px 18px; }
+.description-content { line-height: 1.65; }
+.description-content p { margin-bottom: 9px; }
+.description-content h1, .description-content h2, .description-content h3, .description-content h4 { margin: 15px 0 6px; }
+.description-content ul, .description-content ol { margin: 7px 0 10px; }
+.description-content li { margin: 2px 0; }
+.description-content img { margin: 12px auto; }
+.description-content iframe { margin: 13px auto; }
+.bbCodeSpoilerContainer, .ToggleTriggerAnchor.bbCodeSpoilerContainer { margin: 9px 0; }
+.bbCodeSpoilerButton, button.bbCodeSpoilerButton { padding: 8px 11px; }
+.SpoilerTarget, .bbCodeSpoilerText { padding: 10px 12px; }
+@media (max-width: 600px) {
+  .plugin-main { padding-top: 14px; padding-bottom: 32px; }
+  .breadcrumbs { margin-bottom: 11px; }
+  .plugin-overview { padding-block: 13px; }
+  .plugin-facts { margin-top: 10px; }
+  .plugin-actions { margin-top: 9px; }
+  .description-section { padding-top: 18px; }
+  .description-panel { padding: 13px; }
+}
