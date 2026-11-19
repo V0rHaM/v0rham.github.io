@@ -15,17 +15,40 @@ function decodeDescription(base64) {
   }
 }
 
+async function fetchJson(url) {
+  const res = await fetch(url, {
+    headers: { 'User-Agent': USER_AGENT }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+  return res.json();
+}
+
 async function fetchResourceDescription(id) {
   try {
-    const res = await fetch(`https://api.spiget.org/v2/resources/${id}`, {
-      headers: { 'User-Agent': USER_AGENT }
-    });
-    if (!res.ok) return 'No description provided.';
-    const data = await res.json();
+    const data = await fetchJson(`https://api.spiget.org/v2/resources/${id}`);
     return decodeDescription(data.description);
   } catch {
     return 'No description provided.';
   }
+}
+
+async function fetchLatestVersion(id) {
+  try {
+    // Сначала пробуем endpoint /versions/latest
+    const latest = await fetchJson(`https://api.spiget.org/v2/resources/${id}/versions/latest`);
+    if (latest?.name) return String(latest.name);
+
+    // Fallback: берём самую новую из списка
+    const versions = await fetchJson(
+      `https://api.spiget.org/v2/resources/${id}/versions?size=1&sort=-releaseDate`
+    );
+    if (Array.isArray(versions) && versions[0]?.name) {
+      return String(versions[0].name);
+    }
+  } catch (e) {
+    console.log(`Could not fetch version for ${id}:`, e.message);
+  }
+  return '1.0';
 }
 
 async function fetchPluginsData() {
@@ -39,24 +62,17 @@ async function fetchPluginsData() {
 
     for (const resource of resources) {
       try {
-        // Описание берём напрямую через API (библиотека его не отдаёт)
-        const description = await fetchResourceDescription(resource.id);
-
-        // Версия
-        let version = '1.0';
-        try {
-          const latestVersion = await spiget.getResourceLatestVersion(resource.id);
-          version = latestVersion.name || latestVersion.id || '1.0';
-        } catch (e) {
-          console.log(`Could not fetch version for ${resource.id}`);
-        }
+        const [description, version] = await Promise.all([
+          fetchResourceDescription(resource.id),
+          fetchLatestVersion(resource.id),
+        ]);
 
         pluginsData.push({
           id: resource.id,
           name: resource.name,
           tagline: resource.tag || '',
-          description: description,
-          version: version,
+          description,
+          version,
           author: resource.author?.name || 'V0rHaM',
           downloads: resource.downloads || 0,
           spigotUrl: `https://www.spigotmc.org/resources/${resource.id}/`,
@@ -67,7 +83,7 @@ async function fetchPluginsData() {
             : null,
         });
 
-        console.log(`✓ ${resource.name}`);
+        console.log(`✓ ${resource.name}  v${version}`);
       } catch (err) {
         console.error(`Failed to process resource ${resource.id}:`, err.message);
       }
