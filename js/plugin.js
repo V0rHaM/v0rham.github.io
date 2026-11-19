@@ -122,13 +122,24 @@ async function loadPlugin() {
         descriptionContainer.innerHTML = sanitizeDescription(description);
         initSpoilers(descriptionContainer);
 
-        const downloadUrl = safeHttpsUrl(plugin.spigotUrl);
+        const resourceUrl = safeHttpsUrl(plugin.spigotUrl);
+        const resourceId = Number(plugin.id);
         const downloadButton = document.getElementById('plugin-download-btn');
-        if (downloadUrl) {
-            downloadButton.href = downloadUrl;
+        const resourceButton = document.getElementById('plugin-resource-btn');
+
+        if (Number.isInteger(resourceId) && resourceId > 0) {
+            // Spiget redirects to the currently available resource file on SpigotMC's CDN.
+            downloadButton.href = `https://api.spiget.org/v2/resources/${resourceId}/download`;
         } else {
             downloadButton.removeAttribute('href');
             downloadButton.setAttribute('aria-disabled', 'true');
+        }
+
+        if (resourceUrl) {
+            resourceButton.href = resourceUrl;
+        } else {
+            resourceButton.removeAttribute('href');
+            resourceButton.setAttribute('aria-disabled', 'true');
         }
     } catch (error) {
         console.error('Не удалось загрузить страницу плагина:', error);
