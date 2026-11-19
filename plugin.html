@@ -3,62 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plugin Details | V0rHaM</title>
+    <meta name="theme-color" content="#11130f">
+    <meta name="description" content="Описание плагина V0rHaM для Minecraft.">
+    <title>Плагин | V0rHaM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/plugin.css">
 </head>
 <body>
-    <nav class="topnav">
-        <div class="topnav-inner">
-            <a href="index.html" class="brand">
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="Основная навигация">
+            <a class="brand" href="index.html" aria-label="V0rHaM — главная">
                 <span class="brand-mark">V</span>
-                <span class="brand-name">V0rHaM</span>
+                <span class="brand-name">V0rHaM<span class="brand-period">.</span></span>
             </a>
-            <div class="topnav-links">
-                <a href="index.html">Plugins</a>
-                <a href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener">SpigotMC</a>
+            <div class="nav-links">
+                <a class="nav-link nav-link-active" href="index.html">Плагины</a>
+                <a class="nav-link" href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener noreferrer">SpigotMC <span class="external-mark" aria-hidden="true">↗</span></a>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <div class="container plugin-page">
-        <a href="index.html" class="back-link">← Back to plugins</a>
+    <main class="plugin-main page-shell">
+        <nav class="breadcrumbs" aria-label="Навигационная цепочка">
+            <a href="index.html">Каталог</a>
+            <span aria-hidden="true">/</span>
+            <span id="breadcrumbName">Плагин</span>
+        </nav>
 
-        <header class="plugin-header">
-            <div class="plugin-icon" id="plugin-icon">…</div>
-            <div>
-                <h1 id="plugin-name">Loading...</h1>
-                <p class="plugin-version" id="plugin-version">Please wait</p>
-                <p class="plugin-stats" id="plugin-downloads"></p>
+        <section class="plugin-overview">
+            <div class="plugin-identity">
+                <div class="plugin-icon" id="plugin-icon" aria-hidden="true">V</div>
+                <div class="plugin-heading">
+                    <p class="section-index">V0rHaM <span>/</span> PLUGIN</p>
+                    <h1 id="plugin-name">Загрузка...</h1>
+                    <p class="plugin-tagline" id="plugin-tagline">Подготавливаем информацию о ресурсе.</p>
+                </div>
             </div>
-        </header>
-
-        <div class="plugin-actions">
-            <a id="plugin-download-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Download on SpigotMC
-            </a>
-        </div>
-
-        <section class="plugin-description" id="plugin-description-container">
-            <h2>Description</h2>
-            <div id="plugin-description" class="description-content">
-                Loading description...
+            <div class="plugin-facts">
+                <div class="plugin-fact">
+                    <span class="fact-label">ВЕРСИЯ</span>
+                    <span class="fact-value" id="plugin-version">—</span>
+                </div>
+                <div class="plugin-fact">
+                    <span class="fact-label">ЗАГРУЗКИ</span>
+                    <span class="fact-value" id="plugin-downloads">—</span>
+                </div>
+                <div class="plugin-fact">
+                    <span class="fact-label">ПЛОЩАДКА</span>
+                    <span class="fact-value">SpigotMC</span>
+                </div>
+            </div>
+            <div class="plugin-actions">
+                <a id="plugin-download-btn" href="#" target="_blank" rel="noopener noreferrer" class="button button-primary">Открыть на SpigotMC <span aria-hidden="true">↗</span></a>
+                <a href="index.html#plugins" class="button button-quiet">Все плагины <span aria-hidden="true">←</span></a>
             </div>
         </section>
-    </div>
+
+        <section class="description-section">
+            <div class="description-heading">
+                <p class="section-index">02 <span>/</span> ИНФОРМАЦИЯ</p>
+                <h2>Описание</h2>
+            </div>
+            <article class="description-panel">
+                <div id="plugin-description" class="description-content">Загрузка описания...</div>
+            </article>
+        </section>
+    </main>
 
     <footer class="site-footer">
-        <div class="section-inner">
-            <span>© V0rHaM · Plugins for Spigot / Paper</span>
-            <a href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener">Author on SpigotMC</a>
+        <div class="footer-shell page-shell">
+            <a class="footer-brand" href="index.html">V0rHaM<span>.</span></a>
+            <p>Независимая разработка плагинов для Minecraft.</p>
+            <a class="footer-link" href="https://www.spigotmc.org/resources/authors/v0rham.147903/" target="_blank" rel="noopener noreferrer">SpigotMC <span aria-hidden="true">↗</span></a>
+            <span class="footer-copy">© <span id="currentYear"></span> V0rHaM</span>
         </div>
     </footer>
 
