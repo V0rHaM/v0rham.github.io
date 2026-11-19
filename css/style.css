@@ -18,8 +18,11 @@ body {
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
-    background-image: radial-gradient(circle at 20% 10%, rgba(123, 92, 255, 0.15) 0%, transparent 40%),
-                      radial-gradient(circle at 80% 90%, rgba(0, 198, 255, 0.1) 0%, transparent 40%);
+    background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(91, 141, 239, 0.12), transparent),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
     background-attachment: fixed;
     min-height: 100vh;
 }
