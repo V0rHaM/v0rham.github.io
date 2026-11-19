@@ -1,9 +1,20 @@
 [
   {
+    "id": 98739,
+    "name": "RandomTP - Random Teleportation",
+    "tagline": "Teleports the player to a random location",
+    "description": "No description provided.",
+    "version": "1.0",
+    "author": "V0rHaM",
+    "downloads": 27735,
+    "spigotUrl": "https://www.spigotmc.org/resources/98739/",
+    "iconUrl": null
+  },
+  {
     "id": 105885,
     "name": "AuthVH",
     "tagline": "Simple login plugin",
-    "description": "Описание отсутствует.",
+    "description": "No description provided.",
     "version": "1.0",
     "author": "V0rHaM",
     "downloads": 55939,
@@ -11,10 +22,54 @@
     "iconUrl": "data/resource_icons/105/105885.jpg?1666519237"
   },
   {
+    "id": 111974,
+    "name": "HitPointMobsVH",
+    "tagline": "Changes the health of all mobs through the configuration",
+    "description": "No description provided.",
+    "version": "1.0",
+    "author": "V0rHaM",
+    "downloads": 7237,
+    "spigotUrl": "https://www.spigotmc.org/resources/111974/",
+    "iconUrl": null
+  },
+  {
+    "id": 112089,
+    "name": "SpyCommand",
+    "tagline": "Allows you to monitor the teams used by players right in the game",
+    "description": "No description provided.",
+    "version": "1.0",
+    "author": "V0rHaM",
+    "downloads": 5938,
+    "spigotUrl": "https://www.spigotmc.org/resources/112089/",
+    "iconUrl": null
+  },
+  {
+    "id": 112378,
+    "name": "HomeVH",
+    "tagline": "A simple plugin for home points",
+    "description": "No description provided.",
+    "version": "1.0",
+    "author": "V0rHaM",
+    "downloads": 51,
+    "spigotUrl": "https://www.spigotmc.org/resources/112378/",
+    "iconUrl": null
+  },
+  {
+    "id": 112614,
+    "name": "PlayerDeathLocationVH",
+    "tagline": "Shows the last place of death during rebirth",
+    "description": "No description provided.",
+    "version": "1.0",
+    "author": "V0rHaM",
+    "downloads": 64,
+    "spigotUrl": "https://www.spigotmc.org/resources/112614/",
+    "iconUrl": null
+  },
+  {
     "id": 112792,
     "name": "HiddenNamesVH",
     "tagline": "The plugin simply hides the nicknames above your head",
-    "description": "Описание отсутствует.",
+    "description": "No description provided.",
     "version": "1.0",
     "author": "V0rHaM",
     "downloads": 57,
@@ -22,14 +77,14 @@
     "iconUrl": null
   },
   {
-    "id": 112089,
-    "name": "SpyCommand",
-    "tagline": "Allows you to monitor the teams used by players right in the game",
-    "description": "Описание отсутствует.",
+    "id": 116888,
+    "name": "NoBlockDamageWithCrystal",
+    "tagline": "simple disable damage block with crystal",
+    "description": "No description provided.",
     "version": "1.0",
     "author": "V0rHaM",
-    "downloads": 5938,
-    "spigotUrl": "https://www.spigotmc.org/resources/112089/",
+    "downloads": 81,
+    "spigotUrl": "https://www.spigotmc.org/resources/116888/",
     "iconUrl": null
   }
 ]
