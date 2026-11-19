@@ -177,31 +177,36 @@ body {
     flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 16px 32px;
-    margin-bottom: 28px;
+    gap: 12px 40px;
+    margin-bottom: 24px;
 }
 
 .section-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-hover);
-    margin-bottom: 8px;
+    letter-spacing: 0.12em;
+    color: #60a5fa;
+    margin-bottom: 10px;
 }
 
 .section-title {
     font-family: var(--font-display);
-    font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
     color: #fff;
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
 .section-desc {
-    color: var(--text-muted);
+    color: #94a3b8;
     font-size: 0.95rem;
-    max-width: 340px;
+    max-width: 360px;
     line-height: 1.55;
+    text-align: right;
+}
+
+@media (max-width: 700px) {
+    .section-desc { text-align: left; max-width: none; }
 }
 
 /* ===== Grid — 2 columns like MythicCraft ===== */
