@@ -15,32 +15,62 @@ function normalizeCodeBlock(codeContainer) {
     const languageLabel = block?.querySelector('.type')?.textContent || '';
     const isYaml = /yaml|yml/i.test(languageLabel);
 
-    const classifySpan = element => {
-        const originalColor = (element.style.color || '').toLowerCase().replace(/\s/g, '');
-        const bold = element.style.fontWeight === 'bold' || Number(element.style.fontWeight) >= 600;
-        const italic = element.style.fontStyle === 'italic';
-        let tokenClass = '';
+    
+const classifySpan = element => {
+    const originalColor = (element.style.color || '')
+        .toLowerCase()
+        .replace(/\s/g, '');
 
-        if (isYaml) {
-            if (originalColor.includes('#007f45') || originalColor === 'green') tokenClass = 'tok-yaml-key';
-            else if (originalColor === 'blue') tokenClass = 'tok-yaml-comment';
-            else if (originalColor === 'brown') tokenClass = 'tok-yaml-value';
-            else if (originalColor === 'red') tokenClass = 'tok-string';
-        } else {
-            if (originalColor.includes('#000000') && bold) tokenClass = 'tok-keyword';
-            else if (originalColor.includes('#000066')) tokenClass = 'tok-type';
-            else if (originalColor.includes('#006633')) tokenClass = 'tok-method';
-            else if (originalColor.includes('#009900')) tokenClass = 'tok-punctuation';
-            else if (originalColor.includes('#339933')) tokenClass = 'tok-operator';
-            else if (originalColor.includes('#0000ff') || originalColor === 'blue') tokenClass = 'tok-string';
-            else if (originalColor.includes('#cc66cc')) tokenClass = 'tok-number';
-            else if (originalColor.includes('#666666') || italic) tokenClass = 'tok-comment';
-            else if (originalColor === 'brown') tokenClass = 'tok-punctuation';
-            else if (originalColor === 'red') tokenClass = 'tok-string';
+    const bold = element.style.fontWeight === 'bold' ||
+        Number(element.style.fontWeight) >= 600;
+
+    const italic = element.style.fontStyle === 'italic';
+
+    let tokenClass = '';
+
+    if (isYaml) {
+        if (originalColor.includes('#007f45') || originalColor === 'green') {
+            tokenClass = 'tok-yaml-key';
+        } else if (originalColor === 'blue') {
+            tokenClass = 'tok-yaml-comment';
+        } else if (originalColor === 'brown') {
+            tokenClass = 'tok-yaml-value';
+        } else if (originalColor === 'red') {
+            tokenClass = 'tok-string';
         }
+    } else {
+        if (originalColor.includes('#000000') && bold) {
+            tokenClass = 'tok-keyword';
+        } else if (originalColor.includes('#000066')) {
+            tokenClass = 'tok-type';
+        } else if (originalColor.includes('#006633')) {
+            tokenClass = 'tok-method';
+        } else if (originalColor.includes('#009900')) {
+            tokenClass = 'tok-punctuation';
+        } else if (originalColor.includes('#339933')) {
+            tokenClass = 'tok-operator';
+        } else if (originalColor.includes('#0000ff') || originalColor === 'blue') {
+            tokenClass = 'tok-string';
+        } else if (originalColor.includes('#cc66cc')) {
+            tokenClass = 'tok-number';
+        } else if (originalColor.includes('#666666') || italic) {
+            tokenClass = 'tok-comment';
+        } else if (originalColor === 'brown') {
+            tokenClass = 'tok-punctuation';
+        } else if (originalColor === 'red') {
+            tokenClass = 'tok-string';
+        }
+    }
 
-        if (tokenClass) element.classList.add(tokenClass);
-    };
+    if (tokenClass) {
+        element.classList.add(tokenClass);
+    }
+
+    // Убираем исходные цвета SpigotMC.
+    // Цвет теперь определяется нашей палитрой.
+    element.style.removeProperty('color');
+    element.style.removeProperty('background-color');
+};
 
     const normalizeNode = node => {
         if (node.nodeType === Node.TEXT_NODE) {
@@ -157,48 +187,6 @@ function injectDescriptionStyles() {
     font-size: .9em;
     line-height: 1.55;
     overflow-wrap: anywhere;
-}
-
-.description-content .bbCodeBlock,
-.description-content .bbCodeCode {
-    margin: 17px 0 23px;
-    overflow: hidden;
-    border: 1px solid #30372c;
-    border-radius: 8px;
-    background: #10130f;
-}
-
-.description-content .bbCodeBlock .type {
-    padding: 8px 13px;
-    border-bottom: 1px solid #292f26;
-    background: rgba(255,255,255,.025);
-    color: #929b89;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .04em;
-}
-
-.description-content .bbCodeBlock .code,
-.description-content .bbCodeCode .code {
-    padding: 0;
-    overflow: visible;
-    white-space: normal;
-}
-
-.description-content .formatted-code {
-    display: block;
-    max-width: 100%;
-    margin: 0;
-    padding: 14px 16px;
-    overflow-x: auto;
-    color: #cbd3c2;
-    font-family: var(--mono);
-    font-size: 11px;
-    line-height: 1.6;
-    tab-size: 4;
-    white-space: pre;
-    overflow-wrap: normal;
-    word-break: normal;
 }
 
 .description-content .formatted-code span {
