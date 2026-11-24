@@ -1,3 +1,5 @@
-.description-content .formatted-code {
+
+/* Инверсия всей области кода */
+.description-content .bbCodeBlock.bbCodeCode {
     filter: invert(1);
 }
