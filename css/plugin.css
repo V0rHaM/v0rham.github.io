@@ -133,20 +133,20 @@
 }
 
 
-/* Code blocks */
+//* Code blocks */
 .description-content .bbCodeBlock,
 .description-content .bbCodeCode {
     margin: 14px 0 20px;
     overflow: hidden;
     border: 1px solid #30372c;
     border-radius: 8px;
-    background: #151914;
+    background: #000;
 }
 
 .description-content .bbCodeBlock .type {
     padding: 8px 13px;
     border-bottom: 1px solid #30372c;
-    background: #1b2019;
+    background: #111;
     color: #899384;
     font-family: var(--mono);
     font-size: 10px;
@@ -155,43 +155,25 @@
 
 .description-content .bbCodeBlock .code,
 .description-content .bbCodeCode .code {
-    padding: 0;
-    overflow: visible;
-    white-space: normal;
-}
-
-.description-content .formatted-code {
     display: block;
-    max-width: 100%;
-    margin: 0;
     padding: 14px 16px;
     overflow-x: auto;
-    background: transparent;
+    overflow-y: hidden;
     color: #cbd3c2;
     font-family: var(--mono);
     font-size: 11px;
-    line-height: 1.65;
-    tab-size: 4;
-    white-space: pre;
+    line-height: 1.7;
+
+    /* Переносы только через исходные <br> */
+    white-space: nowrap;
     overflow-wrap: normal;
     word-break: normal;
 }
 
-.description-content .formatted-code span {
-    font-family: inherit;
-    font-size: inherit;
-}
-
 @media (max-width: 650px) {
-    .description-content .formatted-code {
+    .description-content .bbCodeBlock .code,
+    .description-content .bbCodeCode .code {
         padding: 11px;
         font-size: 10px;
     }
-}
-
-/* Black background for code blocks */
-.description-content .bbCodeBlock,
-.description-content .bbCodeCode,
-.description-content .formatted-code {
-    background: #000 !important;
 }
