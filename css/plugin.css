@@ -131,3 +131,105 @@
   .description-section { padding-top: 18px; }
   .description-panel { padding: 13px; }
 }
+
+
+/* Code blocks */
+.description-content .bbCodeBlock,
+.description-content .bbCodeCode {
+    margin: 14px 0 20px;
+    overflow: hidden;
+    border: 1px solid #30372c;
+    border-radius: 8px;
+    background: #151914;
+}
+
+.description-content .bbCodeBlock .type {
+    padding: 8px 13px;
+    border-bottom: 1px solid #30372c;
+    background: #1b2019;
+    color: #899384;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .04em;
+}
+
+.description-content .bbCodeBlock .code,
+.description-content .bbCodeCode .code {
+    padding: 0;
+    overflow: visible;
+    white-space: normal;
+}
+
+.description-content .formatted-code {
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    background: transparent;
+    color: #cbd3c2;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.65;
+    tab-size: 4;
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.description-content .formatted-code span {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* YAML */
+.description-content .tok-yaml-key {
+    color: #a8c98b;
+}
+
+.description-content .tok-yaml-comment,
+.description-content .tok-comment {
+    color: #858f82;
+}
+
+.description-content .tok-yaml-value {
+    color: #d0b58b;
+}
+
+.description-content .tok-string {
+    color: #c5cc91;
+}
+
+/* Java */
+.description-content .tok-keyword {
+    color: #c4a6e8;
+    font-weight: 600;
+}
+
+.description-content .tok-type {
+    color: #8fc5d8;
+}
+
+.description-content .tok-method {
+    color: #a8c98b;
+}
+
+.description-content .tok-punctuation {
+    color: #aeb7a5;
+}
+
+.description-content .tok-operator {
+    color: #d0b58b;
+}
+
+.description-content .tok-number {
+    color: #d6a6a6;
+}
+
+@media (max-width: 650px) {
+    .description-content .formatted-code {
+        padding: 11px;
+        font-size: 10px;
+    }
+}
+
