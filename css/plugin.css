@@ -182,50 +182,6 @@
     font-size: inherit;
 }
 
-/* YAML */
-.description-content .tok-yaml-key {
-    color: #a8c98b;
-}
-
-.description-content .tok-yaml-comment,
-.description-content .tok-comment {
-    color: #858f82;
-}
-
-.description-content .tok-yaml-value {
-    color: #d0b58b;
-}
-
-.description-content .tok-string {
-    color: #c5cc91;
-}
-
-/* Java */
-.description-content .tok-keyword {
-    color: #c4a6e8;
-    font-weight: 600;
-}
-
-.description-content .tok-type {
-    color: #8fc5d8;
-}
-
-.description-content .tok-method {
-    color: #a8c98b;
-}
-
-.description-content .tok-punctuation {
-    color: #aeb7a5;
-}
-
-.description-content .tok-operator {
-    color: #d0b58b;
-}
-
-.description-content .tok-number {
-    color: #d6a6a6;
-}
-
 @media (max-width: 650px) {
     .description-content .formatted-code {
         padding: 11px;
