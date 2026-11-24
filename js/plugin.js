@@ -15,63 +15,6 @@ function normalizeCodeBlock(codeContainer) {
     const languageLabel = block?.querySelector('.type')?.textContent || '';
     const isYaml = /yaml|yml/i.test(languageLabel);
 
-    
-const classifySpan = element => {
-    const originalColor = (element.style.color || '')
-        .toLowerCase()
-        .replace(/\s/g, '');
-
-    const bold = element.style.fontWeight === 'bold' ||
-        Number(element.style.fontWeight) >= 600;
-
-    const italic = element.style.fontStyle === 'italic';
-
-    let tokenClass = '';
-
-    if (isYaml) {
-        if (originalColor.includes('#007f45') || originalColor === 'green') {
-            tokenClass = 'tok-yaml-key';
-        } else if (originalColor === 'blue') {
-            tokenClass = 'tok-yaml-comment';
-        } else if (originalColor === 'brown') {
-            tokenClass = 'tok-yaml-value';
-        } else if (originalColor === 'red') {
-            tokenClass = 'tok-string';
-        }
-    } else {
-        if (originalColor.includes('#000000') && bold) {
-            tokenClass = 'tok-keyword';
-        } else if (originalColor.includes('#000066')) {
-            tokenClass = 'tok-type';
-        } else if (originalColor.includes('#006633')) {
-            tokenClass = 'tok-method';
-        } else if (originalColor.includes('#009900')) {
-            tokenClass = 'tok-punctuation';
-        } else if (originalColor.includes('#339933')) {
-            tokenClass = 'tok-operator';
-        } else if (originalColor.includes('#0000ff') || originalColor === 'blue') {
-            tokenClass = 'tok-string';
-        } else if (originalColor.includes('#cc66cc')) {
-            tokenClass = 'tok-number';
-        } else if (originalColor.includes('#666666') || italic) {
-            tokenClass = 'tok-comment';
-        } else if (originalColor === 'brown') {
-            tokenClass = 'tok-punctuation';
-        } else if (originalColor === 'red') {
-            tokenClass = 'tok-string';
-        }
-    }
-
-    if (tokenClass) {
-        element.classList.add(tokenClass);
-    }
-
-    // Убираем исходные цвета SpigotMC.
-    // Цвет теперь определяется нашей палитрой.
-    element.style.removeProperty('color');
-    element.style.removeProperty('background-color');
-};
-
     const normalizeNode = node => {
         if (node.nodeType === Node.TEXT_NODE) {
             const value = node.nodeValue.replace(/\u00a0/g, ' ');
@@ -81,7 +24,6 @@ const classifySpan = element => {
         if (node.tagName === 'BR') return document.createTextNode('\n');
 
         const clone = node.cloneNode(false);
-        if (clone.tagName === 'SPAN') classifySpan(clone);
         [...node.childNodes].forEach(child => {
             const normalized = normalizeNode(child);
             if (normalized) clone.appendChild(normalized);
