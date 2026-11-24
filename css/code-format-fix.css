@@ -1,5 +1,0 @@
-
-/* Инверсия всей области кода */
-.description-content .bbCodeBlock.bbCodeCode {
-    filter: invert(1);
-}
