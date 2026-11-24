@@ -10,49 +10,6 @@ function safeHttpsUrl(value) {
     }
 }
 
-function normalizeCodeBlock(codeContainer) {
-    const block = codeContainer.closest('.bbCodeBlock, .bbCodeCode');
-    const languageLabel = block?.querySelector('.type')?.textContent || '';
-    const isYaml = /yaml|yml/i.test(languageLabel);
-
-    const normalizeNode = node => {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const value = node.nodeValue.replace(/\u00a0/g, ' ');
-            return document.createTextNode(value);
-        }
-        if (node.nodeType !== Node.ELEMENT_NODE) return null;
-        if (node.tagName === 'BR') return document.createTextNode('\n');
-
-        const clone = node.cloneNode(false);
-        [...node.childNodes].forEach(child => {
-            const normalized = normalizeNode(child);
-            if (normalized) clone.appendChild(normalized);
-        });
-        return clone;
-    };
-
-    const fragment = document.createDocumentFragment();
-    [...codeContainer.childNodes].forEach(child => {
-        const normalized = normalizeNode(child);
-        if (normalized) fragment.appendChild(normalized);
-    });
-
-    const pre = document.createElement('pre');
-    pre.className = 'formatted-code';
-    pre.appendChild(fragment);
-
-    // Spigot wraps each logical line in spans and often inserts formatting whitespace.
-    // Keep <br> line breaks, but trim only blank edges of the whole block.
-    const firstText = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
-    if (firstText.nextNode()) firstText.currentNode.nodeValue = firstText.currentNode.nodeValue.replace(/^\n+/, '');
-    const allText = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
-    let lastText = null;
-    while (allText.nextNode()) lastText = allText.currentNode;
-    if (lastText) lastText.nodeValue = lastText.nodeValue.replace(/[\n\s]+$/, '');
-
-    codeContainer.replaceChildren(pre);
-}
-
 function injectDescriptionStyles() {
     if (document.getElementById('description-formatting-styles')) return;
 
@@ -131,11 +88,6 @@ function injectDescriptionStyles() {
     overflow-wrap: anywhere;
 }
 
-.description-content .formatted-code span {
-    font-family: inherit;
-    font-size: inherit;
-}
-
 .description-content img {
     max-width: 100%;
     height: auto;
@@ -203,11 +155,6 @@ function injectDescriptionStyles() {
     .description-content .description-subheading {
         font-size: 15px;
     }
-
-    .description-content .formatted-code {
-        padding: 11px;
-        font-size: 10px;
-    }
 }
 `;
 
@@ -215,10 +162,6 @@ function injectDescriptionStyles() {
 }
 
 function normalizeDescriptionMarkup(container) {
-    container.querySelectorAll(
-        '.bbCodeBlock .code, .bbCodeCode .code'
-    ).forEach(normalizeCodeBlock);
-
     container.querySelectorAll('span[style*="font-size"]').forEach(element => {
         const size = element.style.fontSize.trim();
 
