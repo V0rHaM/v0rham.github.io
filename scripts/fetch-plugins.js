@@ -39,35 +39,55 @@ function decodeDescription(value) {
 async function fetchAllAuthorResources() {
   const resources = [];
   const seenIds = new Set();
+  const PAGE_SIZE = 10;
 
-  for (let page = 0; page < MAX_PAGES; page += 1) {
-    const url = new URL(`https://api.spiget.org/v2/authors/${AUTHOR_ID}/resources`);
-    url.searchParams.set('size', String(PAGE_SIZE));
+  for (let page = 1; page <= MAX_PAGES; page += 1) {
+    const url = new URL(
+      'https://api.spigotmc.org/simple/0.2/index.php'
+    );
+
+    url.searchParams.set('action', 'getResourcesByAuthor');
+    url.searchParams.set('id', String(AUTHOR_ID));
     url.searchParams.set('page', String(page));
-    url.searchParams.set('sort', '-releaseDate');
 
     const batch = await fetchJson(url);
 
     if (!Array.isArray(batch)) {
-      throw new Error(`Unexpected Spiget response on page ${page}: expected an array`);
+      throw new Error(
+        `Unexpected Spigot response on page ${page}: expected an array`
+      );
     }
 
     for (const resource of batch) {
-      if (!resource || !Number.isInteger(Number(resource.id))) continue;
-      const id = Number(resource.id);
+      const id = Number(resource?.id);
+
+      if (!Number.isInteger(id) || id <= 0) continue;
+
+      if (
+        resource.author?.id &&
+        Number(resource.author.id) !== AUTHOR_ID
+      ) {
+        continue;
+      }
+
       if (seenIds.has(id)) continue;
+
       seenIds.add(id);
       resources.push(resource);
     }
 
-    console.log(`Page ${page + 1}: received ${batch.length} resources`);
+    console.log(
+      `Spigot page ${page}: received ${batch.length} resources`
+    );
 
     if (batch.length < PAGE_SIZE) {
       return resources;
     }
   }
 
-  throw new Error(`Stopped after safety limit of ${MAX_PAGES} pages; refusing partial update`);
+  throw new Error(
+    `Stopped after ${MAX_PAGES} pages; refusing partial update`
+  );
 }
 
 async function readPreviousData(outputPath) {
@@ -82,40 +102,88 @@ async function readPreviousData(outputPath) {
 
 async function fetchResourceDetails(resource, previous) {
   const id = Number(resource.id);
-  let description = previous?.description || 'No description provided.';
-  let version = resource.version?.name || previous?.version || '1.0';
+
+  let description =
+    previous?.description || 'No description provided.';
+
+  let version =
+    resource.current_version ||
+    resource.version?.name ||
+    previous?.version ||
+    '1.0';
 
   try {
-    const details = await fetchJson(`https://api.spiget.org/v2/resources/${id}`);
-    if (details?.description) description = decodeDescription(details.description);
-  } catch (error) {
-    console.warn(`Description unavailable for ${id}; retaining previous value: ${error.message}`);
-  }
+    const details = await fetchJson(
+      `https://api.spiget.org/v2/resources/${id}`
+    );
 
-  try {
-    const latest = await fetchJson(`https://api.spiget.org/v2/resources/${id}/versions/latest`);
-    if (latest?.name) {
-      version = String(latest.name);
-    } else if (resource.version?.name) {
-      version = String(resource.version.name);
+    if (details?.description) {
+      description = decodeDescription(details.description);
     }
   } catch (error) {
-    console.warn(`Latest version unavailable for ${id}; using fallback: ${error.message}`);
+    console.warn(
+      `Description unavailable for ${id}; using fallback: ${error.message}`
+    );
   }
 
-  const iconPath = resource.icon?.url || previous?.iconUrl || null;
+  try {
+    const latest = await fetchJson(
+      `https://api.spiget.org/v2/resources/${id}/versions/latest`
+    );
+
+    if (latest?.name) {
+      version = String(latest.name);
+    }
+  } catch (error) {
+    console.warn(
+      `Latest version unavailable for ${id}; using fallback: ${error.message}`
+    );
+  }
+
+  const iconPath =
+    resource.icon_link ||
+    resource.icon?.url ||
+    previous?.iconUrl ||
+    null;
 
   return {
     id,
-    name: resource.name || previous?.name || `Resource ${id}`,
-    tagline: resource.tag || previous?.tagline || '',
+    name:
+      resource.title ||
+      resource.name ||
+      previous?.name ||
+      `Resource ${id}`,
+
+    tagline:
+      resource.tag ||
+      previous?.tagline ||
+      '',
+
     description,
     version,
-    author: resource.author?.name || previous?.author || 'V0rHaM',
-    downloads: Number(resource.downloads ?? previous?.downloads ?? 0),
-    spigotUrl: `https://www.spigotmc.org/resources/${id}/`,
+
+    author:
+      resource.author?.username ||
+      resource.author?.name ||
+      previous?.author ||
+      'V0rHaM',
+
+    downloads: Number(
+      resource.stats?.downloads ??
+      resource.downloads ??
+      previous?.downloads ??
+      0
+    ),
+
+    spigotUrl:
+      `https://www.spigotmc.org/resources/${id}/`,
+
     iconUrl: iconPath
-      ? (String(iconPath).startsWith('http') ? iconPath : `https://www.spigotmc.org/${iconPath}`)
+      ? (
+          String(iconPath).startsWith('http')
+            ? iconPath
+            : `https://www.spigotmc.org/${iconPath}`
+        )
       : null,
   };
 }
