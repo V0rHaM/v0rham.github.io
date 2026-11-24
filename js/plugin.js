@@ -9,6 +9,169 @@ function safeHttpsUrl(value) {
     }
 }
 
+function normalizeCodeBlock(codeContainer) {
+    const normalizeNode = node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const value = node.nodeValue.replace(/\u00a0/g, ' ');
+            // Spigot descriptions are pretty-printed HTML; discard formatting-only whitespace.
+            if (!value.trim() && /[\r\n]/.test(value)) return null;
+            return document.createTextNode(value);
+        }
+
+        if (node.nodeType !== Node.ELEMENT_NODE) return null;
+        if (node.tagName === 'BR') return document.createTextNode('\n');
+
+        const clone = node.cloneNode(false);
+        [...node.childNodes].forEach(child => {
+            const normalizedChild = normalizeNode(child);
+            if (normalizedChild) clone.appendChild(normalizedChild);
+        });
+        return clone;
+    };
+
+    const normalizedContent = document.createDocumentFragment();
+    [...codeContainer.childNodes].forEach(child => {
+        const normalizedChild = normalizeNode(child);
+        if (normalizedChild) normalizedContent.appendChild(normalizedChild);
+    });
+
+    const wrapper = document.createElement('pre');
+    wrapper.className = 'formatted-code';
+    wrapper.appendChild(normalizedContent);
+
+    // Remove only empty lines at the very beginning/end, preserving code indentation.
+    const trimBoundaryNewlines = node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.nodeValue = node.nodeValue.replace(/^\n+/, '').replace(/\n+$/, '');
+            return;
+        }
+        if (!node.childNodes.length) return;
+        trimBoundaryNewlines(node.firstChild);
+        trimBoundaryNewlines(node.lastChild);
+    };
+    trimBoundaryNewlines(wrapper);
+
+    codeContainer.replaceChildren(wrapper);
+}
+
+function injectDescriptionStyles() {
+    if (document.getElementById('description-formatting-styles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'description-formatting-styles';
+    style.textContent = `
+
+/* Normalized SpigotMC description markup */
+.description-content .description-subheading {
+    margin: 22px 0 9px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 780;
+    line-height: 1.35;
+    letter-spacing: -.025em;
+}
+
+.description-content > .description-subheading:first-child {
+    margin-top: 0;
+}
+
+.description-content .BBcodeInlineCode {
+    display: inline-block;
+    padding: 1px 6px;
+    border: 1px solid rgba(183, 213, 141, .16);
+    border-radius: 4px;
+    background: rgba(183, 213, 141, .07);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: .92em;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.description-content .bbCodeBlock,
+.description-content .bbCodeCode {
+    margin: 14px 0 17px;
+    border: 1px solid #30372c;
+    border-radius: 7px;
+    background: #10130f;
+}
+
+.description-content .bbCodeBlock .type {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, .025);
+    color: #929b89;
+    font-size: 9px;
+}
+
+.description-content .bbCodeBlock .code,
+.description-content .bbCodeCode .code {
+    padding: 0;
+    overflow: hidden;
+    white-space: normal;
+}
+
+.description-content .formatted-code {
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    padding: 13px 15px;
+    overflow-x: auto;
+    color: #c8d0bd;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.65;
+    tab-size: 4;
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.description-content .formatted-code span {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.description-content .bbCodeBlock .formatted-code {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.description-content br + br {
+    display: block;
+    content: "";
+    margin-top: .45em;
+}
+
+@media (max-width: 600px) {
+    .description-content .description-subheading {
+        margin-top: 18px;
+        font-size: 15px;
+    }
+
+    .description-content .formatted-code {
+        padding: 11px 12px;
+        font-size: 10px;
+    }
+}
+`;
+    document.head.appendChild(style);
+}
+
+function normalizeDescriptionMarkup(container) {
+    container.querySelectorAll('.bbCodeBlock .code, .bbCodeCode .code').forEach(normalizeCodeBlock);
+
+    container.querySelectorAll('span[style*="font-size"]').forEach(heading => {
+        const fontSize = heading.style.fontSize;
+        if (!fontSize || !/^(18|22)px$/i.test(fontSize.trim())) return;
+
+        const replacement = document.createElement('div');
+        replacement.className = 'description-subheading';
+        replacement.append(...heading.childNodes);
+        heading.replaceWith(replacement);
+    });
+}
+
 function sanitizeDescription(html) {
     const parser = new DOMParser();
     const documentFragment = parser.parseFromString(String(html || ''), 'text/html');
@@ -45,6 +208,7 @@ function sanitizeDescription(html) {
         }
     });
 
+    normalizeDescriptionMarkup(documentFragment.body);
     return documentFragment.body.innerHTML;
 }
 
@@ -119,17 +283,16 @@ async function loadPlugin() {
             ? plugin.description
             : 'Описание пока не добавлено. Подробности доступны на странице ресурса SpigotMC.';
         const descriptionContainer = document.getElementById('plugin-description');
+        injectDescriptionStyles();
         descriptionContainer.innerHTML = sanitizeDescription(description);
         initSpoilers(descriptionContainer);
 
-        // Build the canonical resource URL from its numeric SpigotMC ID.
         const resourceUrl = `https://www.spigotmc.org/resources/${Number(plugin.id)}/`;
         const resourceId = Number(plugin.id);
         const downloadButton = document.getElementById('plugin-download-btn');
         const resourceButton = document.getElementById('plugin-resource-btn');
 
         if (Number.isInteger(resourceId) && resourceId > 0) {
-            // Spiget redirects to the currently available resource file on SpigotMC's CDN.
             downloadButton.href = `https://api.spiget.org/v2/resources/${resourceId}/versions/latest/download/proxy`;
             downloadButton.setAttribute('download', '');
         } else {
