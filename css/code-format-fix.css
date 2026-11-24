@@ -1,0 +1,27 @@
+/* Normalize SpigotMC syntax-highlighted blocks to a calm, readable theme. */
+.description-content .bbCodeBlock .formatted-code,
+.description-content .bbCodeCode .formatted-code {
+    color: #cbd3c2 !important;
+    background: #10130f !important;
+}
+
+.description-content .bbCodeBlock .formatted-code *,
+.description-content .bbCodeCode .formatted-code * {
+    color: #cbd3c2 !important;
+    background-color: transparent !important;
+    font-weight: 400 !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+/* Keep comments subtly distinct without restoring the original palette. */
+.description-content .formatted-code span[style*="font-style: italic"] {
+    color: #899582 !important;
+    font-style: italic !important;
+}
+
+.description-content .bbCodeBlock .formatted-code::selection,
+.description-content .bbCodeBlock .formatted-code *::selection {
+    color: #f0f3e9 !important;
+    background: #46543b !important;
+}
