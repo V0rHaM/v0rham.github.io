@@ -11,28 +11,57 @@ function safeHttpsUrl(value) {
 }
 
 function normalizeCodeBlock(codeContainer) {
+    const block = codeContainer.closest('.bbCodeBlock, .bbCodeCode');
+    const languageLabel = block?.querySelector('.type')?.textContent || '';
+    const isYaml = /yaml|yml/i.test(languageLabel);
+
+    const classifySpan = element => {
+        const originalColor = (element.style.color || '').toLowerCase().replace(/\s/g, '');
+        const bold = element.style.fontWeight === 'bold' || Number(element.style.fontWeight) >= 600;
+        const italic = element.style.fontStyle === 'italic';
+        let tokenClass = '';
+
+        if (isYaml) {
+            if (originalColor.includes('#007f45') || originalColor === 'green') tokenClass = 'tok-yaml-key';
+            else if (originalColor === 'blue') tokenClass = 'tok-yaml-comment';
+            else if (originalColor === 'brown') tokenClass = 'tok-yaml-value';
+            else if (originalColor === 'red') tokenClass = 'tok-string';
+        } else {
+            if (originalColor.includes('#000000') && bold) tokenClass = 'tok-keyword';
+            else if (originalColor.includes('#000066')) tokenClass = 'tok-type';
+            else if (originalColor.includes('#006633')) tokenClass = 'tok-method';
+            else if (originalColor.includes('#009900')) tokenClass = 'tok-punctuation';
+            else if (originalColor.includes('#339933')) tokenClass = 'tok-operator';
+            else if (originalColor.includes('#0000ff') || originalColor === 'blue') tokenClass = 'tok-string';
+            else if (originalColor.includes('#cc66cc')) tokenClass = 'tok-number';
+            else if (originalColor.includes('#666666') || italic) tokenClass = 'tok-comment';
+            else if (originalColor === 'brown') tokenClass = 'tok-punctuation';
+            else if (originalColor === 'red') tokenClass = 'tok-string';
+        }
+
+        if (tokenClass) element.classList.add(tokenClass);
+        element.style.removeProperty('color');
+        element.style.removeProperty('background-color');
+    };
+
     const normalizeNode = node => {
         if (node.nodeType === Node.TEXT_NODE) {
             const value = node.nodeValue.replace(/\u00a0/g, ' ');
-            if (!value.trim() && /[\r\n]/.test(value)) return null;
             return document.createTextNode(value);
         }
-
         if (node.nodeType !== Node.ELEMENT_NODE) return null;
         if (node.tagName === 'BR') return document.createTextNode('\n');
 
         const clone = node.cloneNode(false);
-
+        if (clone.tagName === 'SPAN') classifySpan(clone);
         [...node.childNodes].forEach(child => {
             const normalized = normalizeNode(child);
             if (normalized) clone.appendChild(normalized);
         });
-
         return clone;
     };
 
     const fragment = document.createDocumentFragment();
-
     [...codeContainer.childNodes].forEach(child => {
         const normalized = normalizeNode(child);
         if (normalized) fragment.appendChild(normalized);
@@ -42,18 +71,14 @@ function normalizeCodeBlock(codeContainer) {
     pre.className = 'formatted-code';
     pre.appendChild(fragment);
 
-    const walker = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
-    const textNodes = [];
-
-    while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-    if (textNodes.length) {
-        textNodes[0].nodeValue =
-            textNodes[0].nodeValue.replace(/^\n+/, '');
-
-        const last = textNodes[textNodes.length - 1];
-        last.nodeValue = last.nodeValue.replace(/\n+$/, '');
-    }
+    // Spigot wraps each logical line in spans and often inserts formatting whitespace.
+    // Keep <br> line breaks, but trim only blank edges of the whole block.
+    const firstText = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
+    if (firstText.nextNode()) firstText.currentNode.nodeValue = firstText.currentNode.nodeValue.replace(/^\n+/, '');
+    const allText = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
+    let lastText = null;
+    while (allText.nextNode()) lastText = allText.currentNode;
+    if (lastText) lastText.nodeValue = lastText.nodeValue.replace(/[\n\s]+$/, '');
 
     codeContainer.replaceChildren(pre);
 }
