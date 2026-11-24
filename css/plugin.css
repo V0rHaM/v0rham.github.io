@@ -233,3 +233,9 @@
     }
 }
 
+/* Black background for code blocks */
+.description-content .bbCodeBlock,
+.description-content .bbCodeCode,
+.description-content .formatted-code {
+    background: #000 !important;
+}
