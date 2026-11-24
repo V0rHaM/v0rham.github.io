@@ -40,8 +40,6 @@ function normalizeCodeBlock(codeContainer) {
         }
 
         if (tokenClass) element.classList.add(tokenClass);
-        element.style.removeProperty('color');
-        element.style.removeProperty('background-color');
     };
 
     const normalizeNode = node => {
